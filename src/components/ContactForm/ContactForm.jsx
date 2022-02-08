@@ -1,11 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import actions from '../../redux/contacts/contacts-actions';
 import s from './ContactForm.module.css';
 
 export default function ContactForm({ onSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
 
   const handleChange = ({ currentTarget: { name, value } }) => {
     name === 'name' ? setName(value) : setNumber(value);
@@ -19,12 +22,15 @@ export default function ContactForm({ onSubmit }) {
   const handleSubmit = e => {
     e.preventDefault();
 
-    onSubmit(name, number);
+    onSubmit({ name, number });
     resetState();
   };
 
   return (
-    <form className={s.form_container} onSubmit={handleSubmit}>
+    <form
+      className={s.form_container}
+      onSubmit={() => dispatch(actions.contactsAdd({ name, number }))}
+    >
       <label className={s.form_label}>
         Name
         <input

@@ -1,13 +1,15 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import actions from '../../redux/contacts/contacts-actions.js';
+import { getVisibleContacts } from '../../redux/contacts/contacts-selectors.js';
 import s from './ContactList.module.css';
 
-function ContactList({ items }) {
+function ContactList() {
+  const visibleContacts = useSelector(getVisibleContacts);
   const dispatch = useDispatch();
 
-  const contactsList = items.map(({ id, name, number }) => (
+  const contactsList = visibleContacts.map(({ id, name, number }) => (
     <li className={s.item} key={id}>
       <div>
         <span className={s.item_text}>
